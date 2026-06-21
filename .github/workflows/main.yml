@@ -17,7 +17,7 @@ jobs:
           MAIN_VARIABLE: ${{ vars.MAIN_VARIABLE }}
         run: |
           export MAIN_VARIABLE
-          envsubst < index.html > index.tmp
+          envsubst < indextemp.html > index.tmp
           mv index.tmp index.html
 
       - name: Commit and push
