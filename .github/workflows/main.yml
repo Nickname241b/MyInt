@@ -16,11 +16,13 @@ jobs:
         env:
           MAIN_VARIABLE: ${{ vars.MAIN_VARIABLE }}
         run: |
+          export MAIN_VARIABLE
           envsubst < index.html > index.tmp
           mv index.tmp index.html
 
       - name: Commit and push
         run: |
+          echo ""
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor }}@users.noreply.github.com"
 
