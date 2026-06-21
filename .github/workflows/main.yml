@@ -1,10 +1,32 @@
 name: Replacer
-run-name: ${{ github.actor }} is running
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
 jobs:
   TEST:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Echo repository variable
-        run: echo "${{ vars.MAIN_VARIABLE }}"
+      - uses: actions/checkout@v4
+
+      - name: Replace
+        env:
+          MAIN_VARIABLE: ${{ vars.MAIN_VARIABLE }}
+        run: |
+          envsubst < index.html > index.tmp
+          mv index.tmp index.html
+
+      - name: Commit and push
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+
+          git add index.html
+
+          if ! git diff --staged --quiet; then
+            git commit -m "Update index.html"
+            git push
+          fi
