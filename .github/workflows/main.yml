@@ -1,0 +1,10 @@
+name: Replacer
+run-name: ${{ github.actor }} is running
+on: workflow_dispatch
+jobs:
+  TEST:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Echo repository variable
+        run: echo "${{ vars.MAIN_VARIABLE }}"
