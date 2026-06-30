@@ -1,1 +1,34 @@
+name: Checkoff
+on:
+  workflow_dispatch:
 
+permissions:
+  contents: write
+
+jobs:
+  TEST:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Replace
+        env:
+          ADD_VARIABLE: ${{ vars.ADD_VARIABLE }}
+        run: |
+          export MAIN_VARIABLE
+          envsubst < indextemp.html > index.tmp
+          mv index.tmp index.html
+
+      - name: Commit and push
+        run: |
+          echo ""
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+
+          git add index.html
+
+          if ! git diff --staged --quiet; then
+            git commit -m "Update index.html"
+            git push
+          fi
