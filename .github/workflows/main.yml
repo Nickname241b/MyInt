@@ -14,7 +14,7 @@ jobs:
 
       - name: Replace
         env:
-          MAIN_VARIABLE: ${{ vars.MAIN_VARIABLE }}
+          ADD_VARIABLE: ${{ vars.ADD_VARIABLE }}
         run: |
           export MAIN_VARIABLE
           envsubst < indextemp.html > index.tmp
